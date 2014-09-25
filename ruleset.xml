@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<ruleset name="Oxid">
+    <description>OXID coding standards.</description>
+
+    <!-- Ignore patterns -->
+    <exclude-pattern>*/core/3rd_party_licenses/*</exclude-pattern>
+    <exclude-pattern>*/core/adodblite/*</exclude-pattern>
+    <exclude-pattern>*/core/application/views/*</exclude-pattern>
+    <exclude-pattern>*/core/facebook/*</exclude-pattern>
+    <exclude-pattern>*/core/jpgraph/*</exclude-pattern>
+    <exclude-pattern>*/core/oxfunctions.php*</exclude-pattern>
+    <exclude-pattern>*/core/phpdtaus/*</exclude-pattern>
+    <exclude-pattern>*/core/phpmailer/*</exclude-pattern>
+    <exclude-pattern>*/core/smarty/*</exclude-pattern>
+    <exclude-pattern>*/core/tcpdf/*</exclude-pattern>
+    <exclude-pattern>*/core/wysiwigpro/*</exclude-pattern>
+    <exclude-pattern>*/out/*</exclude-pattern>
+    <exclude-pattern>*/setup/tpl/*</exclude-pattern>
+    <exclude-pattern>*/tmp[^/]*/*</exclude-pattern>
+
+    <!--  Include specific sniffs from the other standards. -->
+    <rule ref="Generic.Metrics.CyclomaticComplexity"/>
+    <rule ref="PEAR.Commenting.InlineComment"/>
+    <rule ref="PEAR.Files.IncludingFile"/>
+    <rule ref="Zend.NamingConventions.ValidVariableName" />
+
+    <!-- Set specific rules for certain sniffs. -->
+    <rule ref="Zend.NamingConventions.ValidVariableName.NotCamelCaps">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <rule ref="Zend.NamingConventions.ValidVariableName.MemberVarContainsNumbers">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <rule ref="Zend.NamingConventions.ValidVariableName.ContainsNumbers">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <rule ref="Zend.NamingConventions.ValidVariableName.StringVarContainsNumbers">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <rule ref="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore">
+        <exclude-pattern>core/oxconfig.php</exclude-pattern>
+    </rule>
+
+    <rule ref="Generic.Files.LineLength.TooLong">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <rule ref="Oxid.Commenting.FunctionComment.MissingParamComment">
+        <type>warning</type>
+    </rule>
+
+    <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR2">
+        <exclude name="Squiz.Classes.ValidClassName"/>
+        <exclude name="Generic.NamingConventions.CamelCapsFunctionName"/>
+    </rule>
+
+    <rule ref="PSR1">
+        <exclude name="PSR1.Classes.ClassDeclaration"/><!--namespaces are not used yet-->
+        <exclude name="PSR1.Files.SideEffects"/><!--separation of logic is not used yet-->
+    </rule>
+
+</ruleset>

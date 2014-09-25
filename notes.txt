@@ -1,0 +1,31 @@
+==========
+This standard has been derived from the PSR1 and PSR2 standards.
+Also we use original or extend several rules from other standards (Generic, PEAR, Zend).
+Differences are noted below.
+==========
+
+Ruleset
+ - Exclude 3rd party libraries and other irrelevant directories from checking
+ - Removed check for CamelCaps in variables/attributes
+ - Removed check for numbers in variables/attributes
+ - Exclude core/oxconfig.php from checking if private variables/attributes have no underscore
+ - Exclude all files from checking for too long lines
+ - Changed check severity of missing parameter in function/method from error to warning
+ - Removed check for underscores in variables/attributes/methods
+ - Removed check for valid class name 
+ - Removed check for CamelCaps function/method names
+ - Excluded PSR1 rules for:
+  * Class declaration
+  * Side Effects
+
+Commenting/ClassCommentSniff
+ Changes are class/interface comment related
+ - Removed tags from checking
+ - Modified comment parsing
+ - Modified error messages
+
+Commenting/FunctionCommentSniff
+ - Added special treatment for @return statements
+
+Functions/ForbiddenFunctionsSniff
+ - Added var_dump to forbidden functions pool
