@@ -26,6 +26,12 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
+
+/**
+ * This is the adaption to run Code Sniffer properly with OXID
+ * Changes:
+ *  - var_dump is forbidden in OXID source code.
+ */
 class Oxid_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_ForbiddenFunctionsSniff
 {
     /**
