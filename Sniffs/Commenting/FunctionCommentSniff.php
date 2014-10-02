@@ -14,14 +14,21 @@
  */
 
 /**
- * Parses and verifies the doc comments for functions. Extension done by OXID.
+ * Parses and verifies the doc comments for functions.
  *
  * Verifies that :
  * <ul>
- *  <li>If function return type is set, return statement is present aswell</li>
- *  <li>If function has a return statement, expect @return tag</li>
- *  <li>If function does not return anything, don't expect return statement</li>
- *  <li>Return tag is not empty</li>
+ *  <li>A comment exists</li>
+ *  <li>There is a blank newline after the short description.</li>
+ *  <li>There is a blank newline between the long and short description.</li>
+ *  <li>There is a blank newline between the long description and tags.</li>
+ *  <li>Parameter names represent those in the method.</li>
+ *  <li>Parameter comments are in the correct order</li>
+ *  <li>Parameter comments are complete</li>
+ *  <li>A space is present before the first and after the last parameter</li>
+ *  <li>A return type exists</li>
+ *  <li>There must be one blank line between body and headline comments.</li>
+ *  <li>Any throw tag must have an exception class.</li>
  * </ul>
  *
  * @category  PHP
@@ -30,9 +37,8 @@
  * @author    Marc McIntyre <mmcintyre@squiz.net>
  * @copyright 2006-2014 Squiz Pty Ltd (ABN 77 084 670 600)
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
- * @version   Release: 1.5.3
+ * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
- *
  */
 class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting_FunctionCommentSniff
 {

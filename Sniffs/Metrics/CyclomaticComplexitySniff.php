@@ -5,9 +5,10 @@
  * PHP version 5
  *
  * @category  PHP
- * @package   PHP_CodeSniffer_MySource
+ * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>
- * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
+ * @author    Marc McIntyre <mmcintyre@squiz.net>
+ * @copyright 2006-2014 Squiz Pty Ltd (ABN 77 084 670 600)
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
@@ -25,8 +26,9 @@ if (class_exists('Generic_Sniffs_Metrics_CyclomaticComplexitySniff', true) === f
  *
  * @category  PHP
  * @package   PHP_CodeSniffer
+ * @author    Johann-Peter Hartmann <hartmann@mayflower.de>
  * @author    Greg Sherwood <gsherwood@squiz.net>
- * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
+ * @copyright 2007-2014 Mayflower GmbH
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
