@@ -19,6 +19,7 @@
     <exclude-pattern>*/tmp/*</exclude-pattern>
 
     <!--  Include specific sniffs from the Generic standard. -->
+    <rule ref="Generic.Metrics.CyclomaticComplexity"/>
     <rule ref="PEAR.Commenting.InlineComment"/>
     <rule ref="PEAR.Files.IncludingFile"/>
     <rule ref="Zend.NamingConventions.ValidVariableName" />
