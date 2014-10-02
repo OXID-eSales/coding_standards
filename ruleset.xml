@@ -18,23 +18,29 @@
     <exclude-pattern>*/setup/tpl/*</exclude-pattern>
     <exclude-pattern>*/tmp/*</exclude-pattern>
 
-    <!--  Include specific sniffs from the Generic standard. -->
+    <!--  Include specific sniffs from the other standards. -->
     <rule ref="Generic.Metrics.CyclomaticComplexity"/>
     <rule ref="PEAR.Commenting.InlineComment"/>
     <rule ref="PEAR.Files.IncludingFile"/>
     <rule ref="Zend.NamingConventions.ValidVariableName" />
+
+    <!-- Set specific rules for certain sniffs. -->
     <rule ref="Zend.NamingConventions.ValidVariableName.NotCamelCaps">
         <exclude-pattern>*</exclude-pattern>
     </rule>
+
     <rule ref="Zend.NamingConventions.ValidVariableName.MemberVarContainsNumbers">
         <exclude-pattern>*</exclude-pattern>
     </rule>
+
     <rule ref="Zend.NamingConventions.ValidVariableName.ContainsNumbers">
         <exclude-pattern>*</exclude-pattern>
     </rule>
+
     <rule ref="Zend.NamingConventions.ValidVariableName.StringVarContainsNumbers">
         <exclude-pattern>*</exclude-pattern>
     </rule>
+
     <rule ref="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore">
         <exclude-pattern>core/oxconfig.php</exclude-pattern>
     </rule>
@@ -42,6 +48,7 @@
     <rule ref="Generic.Files.LineLength.TooLong">
         <exclude-pattern>*</exclude-pattern>
     </rule>
+
     <rule ref="Oxid.Commenting.FunctionComment.MissingParamComment">
         <type>warning</type>
     </rule>
@@ -49,6 +56,7 @@
     <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
         <exclude-pattern>*</exclude-pattern>
     </rule>
+
     <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
         <exclude-pattern>*</exclude-pattern>
     </rule>
