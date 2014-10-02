@@ -1,6 +1,6 @@
 <?php
 /**
- * Parses and verifies the doc comments for files.
+ * Parses and verifies the doc comments for classes.
  *
  * PHP version 5
  *
@@ -23,7 +23,7 @@ if (class_exists('PEAR_Sniffs_Commenting_FileCommentSniff', true) === false) {
 }
 
 /**
- * Parses and verifies the doc comments for files.
+ * Parses and verifies the doc comments for classes.
  *
  * Verifies that :
  * <ul>
