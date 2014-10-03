@@ -66,7 +66,7 @@
         <exclude name="Generic.NamingConventions.CamelCapsFunctionName"/>
     </rule>
 
-    <rule ref="PSR1.Classes.ClassDeclaration">
+    <rule ref="PSR1">
         <exclude name="PSR1.Classes.ClassDeclaration"/><!--namespaces are not used yet-->
         <exclude name="PSR1.Files.SideEffects"/><!--separation of logic is not used yet-->
     </rule>
