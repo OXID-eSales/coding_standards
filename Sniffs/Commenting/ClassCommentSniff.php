@@ -37,6 +37,11 @@ if (class_exists('PEAR_Sniffs_Commenting_FileCommentSniff', true) === false) {
  *  <li>Check required and optional tags and the format of their content.</li>
  * </ul>
  *
+ * Changes from OXID side are class/interface comment related
+ *  - Removed tags from checking
+ *  - Modified comment parsing
+ *  - Modified error messages
+ *
  * @category  PHP
  * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>

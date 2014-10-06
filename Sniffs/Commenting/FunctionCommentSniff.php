@@ -31,6 +31,9 @@
  *  <li>Any throw tag must have an exception class.</li>
  * </ul>
  *
+ *  Changes from OXID side
+ *   - Added special treatment for @return statements
+ *
  * @category  PHP
  * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>
