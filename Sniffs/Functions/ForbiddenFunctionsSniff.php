@@ -19,7 +19,7 @@
  * Discourages the use of alias functions that are kept in PHP for compatibility
  * with older versions. Can be used to forbid the use of any function.
  *
- * Changes from OXID side
+ * Changes made for use with special behaviour in OXID eShop:
  *  - Added var_dump to forbidden functions pool
  *
  * @category  PHP

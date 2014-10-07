@@ -31,7 +31,7 @@
  *  <li>Any throw tag must have an exception class.</li>
  * </ul>
  *
- *  Changes from OXID side
+ *  Changes made for use with special behaviour in OXID eShop:
  *   - Added special treatment for @return statements
  *
  * @category  PHP
