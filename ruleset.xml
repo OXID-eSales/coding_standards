@@ -16,7 +16,7 @@
     <exclude-pattern>*/core/wysiwigpro/*</exclude-pattern>
     <exclude-pattern>*/out/*</exclude-pattern>
     <exclude-pattern>*/setup/tpl/*</exclude-pattern>
-    <exclude-pattern>*/tmp/*</exclude-pattern>
+    <exclude-pattern>*/tmp[^/]*/*</exclude-pattern>
 
     <!--  Include specific sniffs from the other standards. -->
     <rule ref="Generic.Metrics.CyclomaticComplexity"/>
