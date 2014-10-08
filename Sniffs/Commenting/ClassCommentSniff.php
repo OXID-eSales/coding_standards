@@ -37,11 +37,6 @@ if (class_exists('PEAR_Sniffs_Commenting_FileCommentSniff', true) === false) {
  *  <li>Check required and optional tags and the format of their content.</li>
  * </ul>
  *
- * Changes made for use with special behaviour in OXID eShop are class/interface comment related:
- *  - Removed tags from checking
- *  - Modified comment parsing
- *  - Modified error messages
- *
  * @category  PHP
  * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>
@@ -51,9 +46,15 @@ if (class_exists('PEAR_Sniffs_Commenting_FileCommentSniff', true) === false) {
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
+
+/**
+ * Changes made for use with special behaviour in OXID eShop are class/interface comment related:
+ *  - Removed tags from checking
+ *  - Modified comment parsing
+ *  - Modified error messages
+ */
 class Oxid_Sniffs_Commenting_ClassCommentSniff extends PEAR_Sniffs_Commenting_FileCommentSniff
 {
-
     /**
      * Tags in correct order and related info.
      *
@@ -74,7 +75,6 @@ class Oxid_Sniffs_Commenting_ClassCommentSniff extends PEAR_Sniffs_Commenting_Fi
                );
 
     }//end register()
-
 
     /**
      * Processes this test, when one of its tokens is encountered.
@@ -188,9 +188,7 @@ class Oxid_Sniffs_Commenting_ClassCommentSniff extends PEAR_Sniffs_Commenting_Fi
                 $error = "There must be exactly one blank line between descriptions in $type comments";
                 $phpcsFile->addError($error, ($commentStart + $newlineCount + 1), "ClassCommentLines");
             }
-
             $newlineCount += $newlineBetween;
         }
-
     }//end process()
 }//end class

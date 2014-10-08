@@ -31,9 +31,6 @@
  *  <li>Any throw tag must have an exception class.</li>
  * </ul>
  *
- *  Changes made for use with special behaviour in OXID eShop:
- *   - Added special treatment for @return statements
- *
  * @category  PHP
  * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>
@@ -42,6 +39,11 @@
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
+ */
+
+/**
+ * Changes made for use with special behaviour in OXID eShop:
+ *   - Added special treatment for @return statements
  */
 class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting_FunctionCommentSniff
 {
@@ -65,9 +67,6 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
      * @var int
      */
     private $_sClassToken = null;
-
-
-
 
     /**
      * Processes this test, when one of its tokens is encountered.
@@ -131,8 +130,6 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
                 $this->currentFile->addError($sError, $iErrorPos, 'InvalidNoReturn');
             }
         }
-
-
     }//end processReturn()
 
 

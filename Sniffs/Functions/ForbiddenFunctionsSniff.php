@@ -19,9 +19,6 @@
  * Discourages the use of alias functions that are kept in PHP for compatibility
  * with older versions. Can be used to forbid the use of any function.
  *
- * Changes made for use with special behaviour in OXID eShop:
- *  - Added var_dump to forbidden functions pool
- *
  * @category  PHP
  * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>
@@ -30,6 +27,11 @@
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
+ */
+
+/**
+ *  Changes made for use with special behaviour in OXID eShop:
+ *   - Added var_dump to forbidden functions pool
  */
 class Oxid_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_ForbiddenFunctionsSniff
 {
