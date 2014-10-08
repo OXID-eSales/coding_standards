@@ -2,8 +2,8 @@
 /**
  * Parses and verifies the doc comments for classes, based on Squiz code.
  *
- * This file is based on PEAR/Sniffs/Commenting/FileCommentSniff.php and we have made changes
- * for use with special behaviour in OXID eShop.
+ * This file is based on PEAR/Sniffs/Commenting/FileCommentSniff.php. Changes were made under copyright 
+ * by OXID eSales AG for use with special behaviour in OXID eShop.
  *
  * PHP version 5
  *
