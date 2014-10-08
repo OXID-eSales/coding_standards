@@ -2,8 +2,8 @@
 /**
  * Parses and verifies the doc comments for functions, based on Squiz code.
  *
- * This file is based on PEAR/Sniffs/Commenting/FunctionCommentSniff.php and we have made changes
- * for use with special behaviour in OXID eShop.
+ * This file is based on PEAR/Sniffs/Commenting/FileCommentSniff.php. Changes were made under copyright 
+ * by OXID eSales AG for use with special behaviour in OXID eShop.
  *
  * PHP version 5
  *
@@ -34,8 +34,8 @@
  *  <li>Any throw tag must have an exception class.</li>
  * </ul>
  *
- * This class is based on PEAR_Sniffs_Commenting_FunctionCommentSniff and we have made following changes
- * for use with special behaviour in OXID eShop:
+ * This class is based on PEAR/Sniffs/Commenting/FileCommentSniff.php. Changes were made under copyright 
+ * by OXID eSales AG for use with special behaviour in OXID eShop.
  *   - Added special treatment for "@return" statements
  *
  * @category  PHP
