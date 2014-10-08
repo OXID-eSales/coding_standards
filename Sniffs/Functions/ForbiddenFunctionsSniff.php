@@ -2,8 +2,8 @@
 /**
  * Oxid_Sniffs_Functions_ForbiddenFunctionsSniff, based on Squiz code.
  *
- * This file is based on Generic/Sniffs/PHP/ForbiddenFunctionsSniff.php and we have made changes
- * for use with special behaviour in OXID eShop.
+ * This file is based on PEAR/Sniffs/Commenting/FileCommentSniff.php. Changes were made under copyright 
+ * by OXID eSales AG for use with special behaviour in OXID eShop.
  *
  * PHP version 5
  *
@@ -22,8 +22,8 @@
  * Discourages the use of alias functions that are kept in PHP for compatibility
  * with older versions. Can be used to forbid the use of any function.
  *
- * This class is based on Generic_Sniffs_PHP_ForbiddenFunctionsSniff and we have made following changes
- * for use with special behaviour in OXID eShop:
+ * This class is based on PEAR/Sniffs/Commenting/FileCommentSniff.php. Changes were made under copyright 
+ * by OXID eSales AG for use with special behaviour in OXID eShop.
  *   - Added var_dump to forbidden functions pool
  *
  * @category  PHP
