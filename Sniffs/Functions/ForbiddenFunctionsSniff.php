@@ -1,6 +1,6 @@
 <?php
 /**
- * Generic_Sniffs_PHP_ForbiddenFunctionsSniff, based on Squiz code.
+ * Oxid_Sniffs_Functions_ForbiddenFunctionsSniff, based on Squiz code.
  *
  * This file is based on Generic/Sniffs/PHP/ForbiddenFunctionsSniff.php and we have made changes
  * for use with special behaviour in OXID eShop.
@@ -17,7 +17,7 @@
  */
 
 /**
- * Generic_Sniffs_PHP_ForbiddenFunctionsSniff, based on Squiz code.
+ * Oxid_Sniffs_Functions_ForbiddenFunctionsSniff, based on Squiz code.
  *
  * Discourages the use of alias functions that are kept in PHP for compatibility
  * with older versions. Can be used to forbid the use of any function.
