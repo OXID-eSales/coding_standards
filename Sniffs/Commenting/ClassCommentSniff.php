@@ -1,6 +1,9 @@
 <?php
 /**
- * Parses and verifies the doc comments for classes.
+ * Parses and verifies the doc comments for classes, based on Squiz code.
+ *
+ * This file is based on PEAR/Sniffs/Commenting/FileCommentSniff.php and we have made changes
+ * for use with special behaviour in OXID eShop.
  *
  * PHP version 5
  *
@@ -23,7 +26,7 @@ if (class_exists('PEAR_Sniffs_Commenting_FileCommentSniff', true) === false) {
 }
 
 /**
- * Parses and verifies the doc comments for classes.
+ * Parses and verifies the doc comments for classes, based on Squiz code.
  *
  * Verifies that :
  * <ul>
@@ -37,6 +40,12 @@ if (class_exists('PEAR_Sniffs_Commenting_FileCommentSniff', true) === false) {
  *  <li>Check required and optional tags and the format of their content.</li>
  * </ul>
  *
+ * This class is based on PEAR_Sniffs_Commenting_FileCommentSniff and we have made following changes
+ * for use with special behaviour in OXID eShop:
+ *  - Removed tags from checking
+ *  - Modified comment parsing
+ *  - Modified error messages
+ *
  * @category  PHP
  * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>
@@ -45,13 +54,6 @@ if (class_exists('PEAR_Sniffs_Commenting_FileCommentSniff', true) === false) {
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
- */
-
-/**
- * Changes made for use with special behaviour in OXID eShop are class/interface comment related:
- *  - Removed tags from checking
- *  - Modified comment parsing
- *  - Modified error messages
  */
 class Oxid_Sniffs_Commenting_ClassCommentSniff extends PEAR_Sniffs_Commenting_FileCommentSniff
 {
