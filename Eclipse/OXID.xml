@@ -80,8 +80,8 @@
 <setting id="org.eclipse.php.formatter.core.formatter.insert_new_line_before_else_in_if_statement" value="false"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_new_line_before_finally_in_try_statement" value="false"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_new_line_before_while_in_do_statement" value="false"/>
-<setting id="org.eclipse.php.formatter.core.formatter.insert_new_line_in_empty_block" value="false"/>
-<setting id="org.eclipse.php.formatter.core.formatter.insert_new_line_in_empty_method_body" value="false"/>
+<setting id="org.eclipse.php.formatter.core.formatter.insert_new_line_in_empty_block" value="true"/>
+<setting id="org.eclipse.php.formatter.core.formatter.insert_new_line_in_empty_method_body" value="true"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_new_line_in_empty_type_declaration" value="true"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_after_arrow_in_array_creation" value="true"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_after_arrow_in_field_access" value="false"/>
