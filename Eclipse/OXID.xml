@@ -120,10 +120,10 @@
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_after_opening_paren_in_switch" value="false"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_after_opening_paren_in_while" value="false"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_after_postfix_operator" value="false"/>
-<setting id="org.eclipse.php.formatter.core.formatter.insert_space_after_prefix_operator" value="true"/>
+<setting id="org.eclipse.php.formatter.core.formatter.insert_space_after_prefix_operator" value="false"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_after_question_in_conditional" value="true"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_after_semicolon_in_for" value="true"/>
-<setting id="org.eclipse.php.formatter.core.formatter.insert_space_after_unary_operator" value="true"/>
+<setting id="org.eclipse.php.formatter.core.formatter.insert_space_after_unary_operator" value="false"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_before_arrow_in_array_creation" value="true"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_before_arrow_in_field_access" value="false"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_before_arrow_in_foreach" value="true"/>
@@ -175,7 +175,7 @@
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_before_opening_paren_in_method_invocation" value="false"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_before_opening_paren_in_switch" value="true"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_before_opening_paren_in_while" value="true"/>
-<setting id="org.eclipse.php.formatter.core.formatter.insert_space_before_postfix_operator" value="true"/>
+<setting id="org.eclipse.php.formatter.core.formatter.insert_space_before_postfix_operator" value="false"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_before_prefix_operator" value="false"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_before_question_in_conditional" value="true"/>
 <setting id="org.eclipse.php.formatter.core.formatter.insert_space_before_semicolon" value="false"/>
