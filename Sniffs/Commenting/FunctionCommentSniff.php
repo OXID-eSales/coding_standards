@@ -74,12 +74,11 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
             if (empty($content) === true || $tokens[($return + 2)]['code'] !== T_DOC_COMMENT_STRING) {
                 $error = 'Return type missing for @return tag in function comment';
                 $phpcsFile->addError($error, $return, 'MissingReturnType');
-            }
-            elseif (!$this->functionHasReturnStatement($phpcsFile, $stackPtr)) {
+            } elseif (!$this->functionHasReturnStatement($phpcsFile, $stackPtr)) {
                 $error = 'Function return type is set, but function has no return statement';
                 $phpcsFile->addError($error, $return, 'InvalidNoReturn');
             }
-        } elseif ( $this->functionHasReturnStatement($phpcsFile, $stackPtr) ) {
+        } elseif ($this->functionHasReturnStatement($phpcsFile, $stackPtr)) {
             $error = 'Missing @return tag in function comment.';
             $phpcsFile->addError($error, $tokens[$commentStart]['comment_closer'], 'MissingReturn');
         }//end if
@@ -89,10 +88,9 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
     /**
      * Search if Function has a Return Statement
      *
-     * @param PHP_CodeSniffer_File $phpcsFile    The file being scanned.
-     * @param int                  $stackPtr     The position of the current token
-     *                                           in the stack passed in $tokens.
-     * @param int                  $commentStart The position in the stack where the comment started.
+     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param int                  $stackPtr  The position of the current token
+     *                                        in the stack passed in $tokens.
      *
      * @return bool
      */
@@ -102,7 +100,8 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
         $sFunctionToken = $tokens[$stackPtr];
 
         if (isset($sFunctionToken['scope_opener']) && isset($sFunctionToken['scope_closer'])
-            && $phpcsFile->findNext(T_RETURN, $sFunctionToken['scope_opener'], $sFunctionToken['scope_closer']) !== false) {
+            && $phpcsFile->findNext(T_RETURN, $sFunctionToken['scope_opener'], $sFunctionToken['scope_closer']) !== false
+        ) {
             return true;
         }
 
