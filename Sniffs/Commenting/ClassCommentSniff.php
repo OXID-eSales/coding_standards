@@ -125,33 +125,4 @@ class Oxid_Sniffs_Commenting_ClassCommentSniff extends PEAR_Sniffs_Commenting_Fi
 
     }//end process()
 
-
-    /**
-     * Process the version tag.
-     *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param array                $tags      The tokens for these tags.
-     *
-     * @return void
-     */
-    protected function processVersion(PHP_CodeSniffer_File $phpcsFile, array $tags)
-    {
-        $tokens = $phpcsFile->getTokens();
-        foreach ($tags as $tag) {
-            if ($tokens[($tag + 2)]['code'] !== T_DOC_COMMENT_STRING) {
-                // No content.
-                continue;
-            }
-
-            $content = $tokens[($tag + 2)]['content'];
-            if ((strstr($content, 'Release:') === false)) {
-                $error = 'Invalid version "%s" in doc comment; consider "Release: <package_version>" instead';
-                $data  = array($content);
-                $phpcsFile->addWarning($error, $tag, 'InvalidVersion', $data);
-            }
-        }
-
-    }//end processVersion()
-
-
 }//end class
