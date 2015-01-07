@@ -49,6 +49,8 @@
 class Oxid_Sniffs_Commenting_ClassCommentSniff extends PEAR_Sniffs_Commenting_FileCommentSniff
 {
 
+    protected $tags = array();
+
     /**
      * Returns an array of tokens this test wants to listen for.
      *
