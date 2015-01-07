@@ -104,17 +104,6 @@ class Oxid_Sniffs_Commenting_ClassCommentSniff extends PEAR_Sniffs_Commenting_Fi
             $start = $phpcsFile->findPrevious(T_COMMENT, ($commentEnd - 1), null, true);
         }
 
-        $prev = $phpcsFile->findPrevious(T_WHITESPACE, $start, null, true);
-        if ($tokens[$prev]['code'] === T_OPEN_TAG) {
-            $prevOpen = $phpcsFile->findPrevious(T_OPEN_TAG, ($prev - 1));
-            if ($prevOpen === false) {
-                // This is a comment directly after the first open tag,
-                // so probably a file comment.
-                $phpcsFile->addError('Missing class doc comment', $stackPtr, 'Missing');
-                return;
-            }
-        }
-
         if ($tokens[$commentEnd]['code'] === T_COMMENT) {
             $phpcsFile->addError('You must use "/**" style comments for a class comment', $stackPtr, 'WrongStyle');
             return;
