@@ -2,7 +2,7 @@
 /**
  * Parses and verifies the doc comments for classes, based on Squiz code.
  *
- * This file is based on PEAR/Sniffs/Commenting/FileCommentSniff.php. Changes were made under copyright 
+ * This file is based on PEAR/Sniffs/Commenting/ClassCommentSniff.php (commit: 23e8320). Changes were made under copyright 
  * by OXID eSales AG for use with special behaviour in OXID eShop.
  *
  * PHP version 5
@@ -15,15 +15,6 @@
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-
-if (class_exists('PHP_CodeSniffer_CommentParser_ClassCommentParser', true) === false) {
-    throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_CommentParser_ClassCommentParser not found');
-}
-
-if (class_exists('PEAR_Sniffs_Commenting_FileCommentSniff', true) === false) {
-    $error = 'Class PEAR_Sniffs_Commenting_FileCommentSniff not found';
-    throw new PHP_CodeSniffer_Exception($error);
-}
 
 /**
  * Parses and verifies the doc comments for classes, based on Squiz code.
@@ -57,12 +48,6 @@ if (class_exists('PEAR_Sniffs_Commenting_FileCommentSniff', true) === false) {
  */
 class Oxid_Sniffs_Commenting_ClassCommentSniff extends PEAR_Sniffs_Commenting_FileCommentSniff
 {
-    /**
-     * Tags in correct order and related info.
-     *
-     * @var array
-     */
-    protected $tags = array();
 
     /**
      * Returns an array of tokens this test wants to listen for.
@@ -78,6 +63,7 @@ class Oxid_Sniffs_Commenting_ClassCommentSniff extends PEAR_Sniffs_Commenting_Fi
 
     }//end register()
 
+
     /**
      * Processes this test, when one of its tokens is encountered.
      *
@@ -91,106 +77,81 @@ class Oxid_Sniffs_Commenting_ClassCommentSniff extends PEAR_Sniffs_Commenting_Fi
     {
         $this->currentFile = $phpcsFile;
 
-        $tokens = $phpcsFile->getTokens();
-        $type   = strtolower($tokens[$stackPtr]['content']);
-        $find   = array(
-                   T_ABSTRACT,
-                   T_WHITESPACE,
-                   T_FINAL,
-                  );
+        $tokens    = $phpcsFile->getTokens();
+        $type      = strtolower($tokens[$stackPtr]['content']);
+        $errorData = array($type);
 
-        // Extract the class comment docblock.
+        $find   = PHP_CodeSniffer_Tokens::$methodPrefixes;
+        $find[] = T_WHITESPACE;
+
         $commentEnd = $phpcsFile->findPrevious($find, ($stackPtr - 1), null, true);
-
-        if ($commentEnd !== false && $tokens[$commentEnd]['code'] === T_COMMENT) {
-            $error = "You must use \"/**\" style comments for a $type comment";
-            $phpcsFile->addError($error, $stackPtr, "ClassCommentIncorrect");
-            return;
-        } else if ($commentEnd === false
-            || $tokens[$commentEnd]['code'] !== T_DOC_COMMENT
+        if ($tokens[$commentEnd]['code'] !== T_DOC_COMMENT_CLOSE_TAG
+            && $tokens[$commentEnd]['code'] !== T_COMMENT
         ) {
-            $phpcsFile->addError("Missing $type doc comment", $stackPtr, "ClassCommentMissing");
+            $phpcsFile->addError('Missing class doc comment', $stackPtr, 'Missing');
+            $phpcsFile->recordMetric($stackPtr, 'Class has doc comment', 'no');
             return;
+        } else {
+            $phpcsFile->recordMetric($stackPtr, 'Class has doc comment', 'yes');
         }
 
-        $commentStart = ($phpcsFile->findPrevious(T_DOC_COMMENT, ($commentEnd - 1), null, true) + 1);
-        $commentNext  = $phpcsFile->findPrevious(T_WHITESPACE, ($commentEnd + 1), $stackPtr, false, $phpcsFile->eolChar);
-
-        // Distinguish file and class comment.
-        $prevClassToken = $phpcsFile->findPrevious(T_CLASS, ($stackPtr - 1));
-        if ($prevClassToken === false) {
-            // This is the first class token in this file, need extra checks.
-            $prevNonComment = $phpcsFile->findPrevious(T_DOC_COMMENT, ($commentStart - 1), null, true);
-            if ($prevNonComment !== false) {
-                $prevComment = $phpcsFile->findPrevious(T_DOC_COMMENT, ($prevNonComment - 1));
-                if ($prevComment === false) {
-                    // There is only 1 doc comment between open tag and class token.
-                    $newlineToken = $phpcsFile->findNext(T_WHITESPACE, ($commentEnd + 1), $stackPtr, false, $phpcsFile->eolChar);
-                    if ($newlineToken !== false) {
-                        $newlineToken = $phpcsFile->findNext(
-                            T_WHITESPACE,
-                            ($newlineToken + 1),
-                            $stackPtr,
-                            false,
-                            $phpcsFile->eolChar
-                        );
-
-                        if ($newlineToken !== false) {
-                            // Blank line between the class and the doc block.
-                            // The doc block is most likely a file comment.
-                            $error = "Missing $type doc comment";
-                            $phpcsFile->addError($error, ($stackPtr + 1), "ClassCommentMissing");
-                            return;
-                        }
-                    }//end if
-                }//end if
-            }//end if
-        }//end if
-
-        $comment = $phpcsFile->getTokensAsString(
-            $commentStart,
-            ($commentEnd - $commentStart + 1)
-        );
-
-        // Parse the class comment.docblock.
-        try {
-            $this->commentParser = new PHP_CodeSniffer_CommentParser_ClassCommentParser($comment, $phpcsFile);
-            $this->commentParser->parse();
-        } catch (PHP_CodeSniffer_CommentParser_ParserException $e) {
-            $line = ($e->getLineWithinComment() + $commentStart);
-            $phpcsFile->addError($e->getMessage(), $line, "ClassCommentError");
-            return;
+        // Try and determine if this is a file comment instead of a class comment.
+        // We assume that if this is the first comment after the open PHP tag, then
+        // it is most likely a file comment instead of a class comment.
+        if ($tokens[$commentEnd]['code'] === T_DOC_COMMENT_CLOSE_TAG) {
+            $start = ($tokens[$commentEnd]['comment_opener'] - 1);
+        } else {
+            $start = $phpcsFile->findPrevious(T_COMMENT, ($commentEnd - 1), null, true);
         }
 
-        $comment = $this->commentParser->getComment();
-        if (is_null($comment) === true) {
-            $error = ucfirst($type).' doc comment is empty';
-            $phpcsFile->addError($error, $commentStart, "ClassCommentEmpty");
-            return;
-        }
-
-        // No extra newline before short description.
-        $short        = $comment->getShortComment();
-        $newlineCount = 0;
-        $newlineSpan  = strspn($short, $phpcsFile->eolChar);
-        if ($short !== '' && $newlineSpan > 0) {
-            $line  = ($newlineSpan > 1) ? 'newlines' : 'newline';
-            $error = "Extra $line found before $type comment short description";
-            $phpcsFile->addError($error, ($commentStart + 1), "ClassCommentLines");
-        }
-
-        $newlineCount = (substr_count($short, $phpcsFile->eolChar) + 1);
-
-        // Exactly one blank line between short and long description.
-        $long = $comment->getLongComment();
-        if (empty($long) === false) {
-            $between        = $comment->getWhiteSpaceBetween();
-            $newlineBetween = substr_count($between, $phpcsFile->eolChar);
-            if ($newlineBetween !== 2) {
-                $error = "There must be exactly one blank line between descriptions in $type comments";
-                $phpcsFile->addError($error, ($commentStart + $newlineCount + 1), "ClassCommentLines");
+        $prev = $phpcsFile->findPrevious(T_WHITESPACE, $start, null, true);
+        if ($tokens[$prev]['code'] === T_OPEN_TAG) {
+            $prevOpen = $phpcsFile->findPrevious(T_OPEN_TAG, ($prev - 1));
+            if ($prevOpen === false) {
+                // This is a comment directly after the first open tag,
+                // so probably a file comment.
+                $phpcsFile->addError('Missing class doc comment', $stackPtr, 'Missing');
+                return;
             }
-            $newlineCount += $newlineBetween;
         }
+
+        if ($tokens[$commentEnd]['code'] === T_COMMENT) {
+            $phpcsFile->addError('You must use "/**" style comments for a class comment', $stackPtr, 'WrongStyle');
+            return;
+        }
+
+        // Check each tag.
+        $this->processTags($phpcsFile, $stackPtr, $tokens[$commentEnd]['comment_opener']);
+
     }//end process()
+
+
+    /**
+     * Process the version tag.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param array                $tags      The tokens for these tags.
+     *
+     * @return void
+     */
+    protected function processVersion(PHP_CodeSniffer_File $phpcsFile, array $tags)
+    {
+        $tokens = $phpcsFile->getTokens();
+        foreach ($tags as $tag) {
+            if ($tokens[($tag + 2)]['code'] !== T_DOC_COMMENT_STRING) {
+                // No content.
+                continue;
+            }
+
+            $content = $tokens[($tag + 2)]['content'];
+            if ((strstr($content, 'Release:') === false)) {
+                $error = 'Invalid version "%s" in doc comment; consider "Release: <package_version>" instead';
+                $data  = array($content);
+                $phpcsFile->addWarning($error, $tag, 'InvalidVersion', $data);
+            }
+        }
+
+    }//end processVersion()
+
+
 }//end class
