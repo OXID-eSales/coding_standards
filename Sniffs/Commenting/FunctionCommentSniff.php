@@ -1,8 +1,8 @@
 <?php
 /**
- * Parses and verifies the doc comments for functions, based on Squiz code.
+ * Parses and verifies the doc comments for functions.
  *
- * This file is based on PEAR/Sniffs/Commenting/FunctionCommentSniff.php. Changes were made under copyright
+ * This file is based on PEAR/Sniffs/Commenting/FunctionCommentSniff.php (commit: 23e8320). Changes were made under copyright
  * by OXID eSales AG for use with special behaviour in OXID eShop.
  *
  * PHP version 5
@@ -17,24 +17,9 @@
  */
 
 /**
- * Parses and verifies the doc comments for functions, based on Squiz code.
+ * Parses and verifies the doc comments for functions.
  *
- * Verifies that :
- * <ul>
- *  <li>A comment exists</li>
- *  <li>There is a blank newline after the short description.</li>
- *  <li>There is a blank newline between the long and short description.</li>
- *  <li>There is a blank newline between the long description and tags.</li>
- *  <li>Parameter names represent those in the method.</li>
- *  <li>Parameter comments are in the correct order</li>
- *  <li>Parameter comments are complete</li>
- *  <li>A space is present before the first and after the last parameter</li>
- *  <li>A return type exists</li>
- *  <li>There must be one blank line between body and headline comments.</li>
- *  <li>Any throw tag must have an exception class.</li>
- * </ul>
- *
- * This class is based on PEAR/Sniffs/Commenting/FunctionCommentSniff. Changes were made under copyright
+ * This class is based on PEAR/Sniffs/Commenting/FunctionCommentSniff (commit: 23e8320). Changes were made under copyright
  * by OXID eSales AG for use with special behaviour in OXID eShop.
  *   - Added special treatment for "@return" statements
  *
@@ -50,112 +35,77 @@
 class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting_FunctionCommentSniff
 {
     /**
-     * The name of the method that we are currently processing.
+     * Process the return comment of this function comment.
      *
-     * @var string
-     */
-    private $_sMethodName = '';
-
-    /**
-     * The position in the stack where the function token was found.
+     * @param PHP_CodeSniffer_File $phpcsFile    The file being scanned.
+     * @param int                  $stackPtr     The position of the current token
+     *                                           in the stack passed in $tokens.
+     * @param int                  $commentStart The position in the stack where the comment started.
      *
-     * @var int
+     * @return void
      */
-    private $_sFunctionToken = null;
-
-    /**
-     * The position in the stack where the class token was found.
-     *
-     * @var int
-     */
-    private $_sClassToken = null;
-
-    /**
-     * Processes this test, when one of its tokens is encountered.
-     *
-     * @param PHP_CodeSniffer_File $oPhpCsFile The file being scanned.
-     * @param int                  $iStackPtr  The position of the current token
-     *                                         in the stack passed in $tokens.
-     */
-    public function process(PHP_CodeSniffer_File $oPhpCsFile, $iStackPtr)
+    protected function processReturn(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $commentStart)
     {
-        $this->_sMethodName = $oPhpCsFile->getDeclarationName($iStackPtr);
-        $this->_sFunctionToken = $iStackPtr;
-        $aTokens            = $oPhpCsFile->getTokens();
-        $this->_sClassToken = null;
-        foreach ($aTokens[$iStackPtr]['conditions'] as $iCondPtr => $iCondition) {
-            if ($iCondition === T_CLASS || $iCondition === T_INTERFACE) {
-                $this->_sClassToken = $iCondPtr;
+        $tokens = $phpcsFile->getTokens();
+
+        // Skip constructor and destructor.
+        $methodName      = $phpcsFile->getDeclarationName($stackPtr);
+        $isSpecialMethod = ($methodName === '__construct' || $methodName === '__destruct');
+
+        $return = null;
+        foreach ($tokens[$commentStart]['comment_tags'] as $tag) {
+            if ($tokens[$tag]['content'] === '@return') {
+                if ($return !== null) {
+                    $error = 'Only 1 @return tag is allowed in a function comment';
+                    $phpcsFile->addError($error, $tag, 'DuplicateReturn');
+                    return;
+                }
+
+                $return = $tag;
             }
         }
-        parent::process($oPhpCsFile, $iStackPtr);
-    }
 
-    /**
-     * Process return statement
-     *
-     * @param int $iCommentStart The position in the stack where the comment started.
-     * @param int $iCommentEnd   The position in the stack where the comment ended.
-     *
-     * @return null
-     */
-    protected function processReturn($iCommentStart, $iCommentEnd)
-    {
-        $sRawContent = null;
-        if ($this->_isConstructor()) {
+        if ($isSpecialMethod === true) {
             return;
         }
 
-        $aTokens           = $this->currentFile->getTokens();
-        /** @var PHP_CodeSniffer_CommentParser_PairElement $oReturn */
-        if (!is_null($oReturn = $this->commentParser->getReturn())) {
-            $sRawContent = trim($oReturn->getRawContent());
-        }
+        if ($return !== null) {
+            $content = $tokens[($return + 2)]['content'];
+            if (empty($content) === true || $tokens[($return + 2)]['code'] !== T_DOC_COMMENT_STRING) {
+                $error = 'Return type missing for @return tag in function comment';
+                $phpcsFile->addError($error, $return, 'MissingReturnType');
+            } elseif (!$this->functionHasReturnStatement($phpcsFile, $stackPtr)) {
+                $error = 'Function return type is set, but function has no return statement';
+                $phpcsFile->addError($error, $return, 'InvalidNoReturn');
+            }
+        } elseif ($this->functionHasReturnStatement($phpcsFile, $stackPtr)) {
+            $error = 'Missing @return tag in function comment.';
+            $phpcsFile->addError($error, $tokens[$commentStart]['comment_closer'], 'MissingReturn');
+        }//end if
 
-        if (isset($aTokens[$this->_sFunctionToken]['scope_closer'])) {
-            $iEndToken = $aTokens[$this->_sFunctionToken]['scope_closer'];
-        }
-        if ($oReturn === null) {
-            if (isset($iEndToken) && $this->currentFile->findNext(T_RETURN, $this->_sFunctionToken, $iEndToken) !== false) {
-                $iErrorPos = $iCommentEnd;
-                $sError = 'Function returns some value, but function has no return type';
-                $this->currentFile->addError($sError, $iErrorPos, 'InvalidReturnNotVoid');
-            }
-        } else {
-            $iErrorPos = ($iCommentStart + $oReturn->getLine());
-            if ($sRawContent === '') {
-                $sError = '@return tag is empty in function comment';
-                $this->currentFile->addError($sError, $iErrorPos, 'EmptyReturn');
-            } elseif (!empty($sRawContent) && isset($iEndToken) && $sRawContent !== 'null'
-                      && $this->currentFile->findNext(T_RETURN, $this->_sFunctionToken, $iEndToken) === false) {
-                $sError = 'Function return type is set, but function has no return statement';
-                $this->currentFile->addError($sError, $iErrorPos, 'InvalidNoReturn');
-            }
-        }
     }//end processReturn()
 
-
     /**
-     * Check whether we are dealing with constructor method
-     * Returns true if method is constructor, false otherwise
+     * Search if Function has a Return Statement
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param int                  $stackPtr  The position of the current token
+     *                                        in the stack passed in $tokens.
      *
      * @return bool
      */
-    protected function _isConstructor()
+    protected function functionHasReturnStatement(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $sClassName  = '';
+        $tokens = $phpcsFile->getTokens();
+        $sFunctionToken = $tokens[$stackPtr];
 
-        if ($this->_sClassToken !== null) {
-            $sClassName = $this->currentFile->getDeclarationName($this->_sClassToken);
-            $sClassName = strtolower(ltrim($sClassName, '_'));
-        }
-
-        $sMethodName       = strtolower(ltrim($this->_sMethodName, '_'));
-        $blIsSpecialMethod = ($this->_sMethodName === '__construct' || $this->_sMethodName === '__destruct');
-        // if we want constructor to be checked with @return checks, comment out this check
-        if ($blIsSpecialMethod === true || $sMethodName === $sClassName) {
+        if (isset($sFunctionToken['scope_opener']) && isset($sFunctionToken['scope_closer'])
+            && $phpcsFile->findNext(T_RETURN, $sFunctionToken['scope_opener'], $sFunctionToken['scope_closer']) !== false
+        ) {
             return true;
         }
+
         return false;
-    }
-}
+    }//end functionHasReturnStatement()
+
+}//end class

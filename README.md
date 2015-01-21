@@ -7,7 +7,7 @@ See OXID eShop coding standards documentation at http://wiki.oxidforge.org/Codin
 
 ##Requirements
 * PHP 5.3+
-* PHP Codesniffer 1.5+
+* PHP Codesniffer 2.1+
 
 ##Installation
 Installation is as easy as checking out the repository to the correct location within PHP_CodeSniffer's directory structure.

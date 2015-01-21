@@ -22,26 +22,26 @@
     <rule ref="Generic.Metrics.CyclomaticComplexity"/>
     <rule ref="PEAR.Commenting.InlineComment"/>
     <rule ref="PEAR.Files.IncludingFile"/>
-    <rule ref="Zend.NamingConventions.ValidVariableName" />
+    <rule ref="Oxid.NamingConventions.ValidVariableName" />
 
     <!-- Set specific rules for certain sniffs. -->
-    <rule ref="Zend.NamingConventions.ValidVariableName.NotCamelCaps">
+    <rule ref="Oxid.NamingConventions.ValidVariableName.NotCamelCaps">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <rule ref="Zend.NamingConventions.ValidVariableName.MemberVarContainsNumbers">
+    <rule ref="Oxid.NamingConventions.ValidVariableName.MemberVarContainsNumbers">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <rule ref="Zend.NamingConventions.ValidVariableName.ContainsNumbers">
+    <rule ref="Oxid.NamingConventions.ValidVariableName.ContainsNumbers">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <rule ref="Zend.NamingConventions.ValidVariableName.StringVarContainsNumbers">
+    <rule ref="Oxid.NamingConventions.ValidVariableName.StringVarContainsNumbers">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <rule ref="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore">
+    <rule ref="Oxid.NamingConventions.ValidVariableName.PrivateNoUnderscore">
         <exclude-pattern>core/oxconfig.php</exclude-pattern>
     </rule>
 
