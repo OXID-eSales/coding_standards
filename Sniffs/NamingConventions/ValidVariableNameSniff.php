@@ -17,18 +17,27 @@
  * Checks the naming of variables and member variables of right
  * Convions
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
- * @author    Tobias Matthaiou <tm@solutiondrive.de>
- * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
- * @version   Release: @package_version@
- * @link      http://pear.php.net/package/PHP_CodeSniffer
+ * @category PHP
+ * @package  PHP_CodeSniffer
+ * @author   Tobias Matthaiou <tm@solutiondrive.de>
+ * @license  https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
+ * @version  Release: @package_version@
+ * @link     http://pear.php.net/package/PHP_CodeSniffer
  */
 class Oxid_Sniffs_NamingConventions_ValidVariableNameSniff extends Zend_Sniffs_NamingConventions_ValidVariableNameSniff
 {
+
+    /**
+     * A list of hungarian Notation
+     * @var string
+     */
     private $_hungarianNotation = "(a|bl|o|s|i|f|d|h|fn|m|is|my|db|fld)";
 
-    protected $_ignoreVaribaleNames = array(
+    /**
+     * A list of reserved var, then its ok.
+     * @var array
+     */
+    protected $ignoreVaribaleNames = array(
         //PHP reserved var
                                             '_SERVER',
                                             '_GET',
@@ -50,6 +59,7 @@ class Oxid_Sniffs_NamingConventions_ValidVariableNameSniff extends Zend_Sniffs_N
                                             'fields',
                                             'fldtype',
     );
+
     /**
      * Processes this test, when one of its tokens is encountered.
      *
@@ -65,11 +75,11 @@ class Oxid_Sniffs_NamingConventions_ValidVariableNameSniff extends Zend_Sniffs_N
         $varName = ltrim($tokens[$stackPtr]['content'], '$');
 
         // If it's a php reserved var, then its ok.
-        if (in_array($varName, $this->_ignoreVaribaleNames) === true) {
+        if (in_array($varName, $this->ignoreVaribaleNames) === true) {
             return;
         }
 
-        $this->_checkHungarianNotation($phpcsFile, $stackPtr, $varName, 'NotTypeName');
+        $this->checkHungarianNotation($phpcsFile, $stackPtr, $varName, 'NotTypeName');
 
         parent::processVariable($phpcsFile, $stackPtr);
     }//end processVariable()
@@ -89,7 +99,7 @@ class Oxid_Sniffs_NamingConventions_ValidVariableNameSniff extends Zend_Sniffs_N
         $tokens      = $phpcsFile->getTokens();
         $varName     = ltrim($tokens[$stackPtr]['content'], '$');
 
-        $this->_checkHungarianNotation($phpcsFile, $stackPtr, $varName, 'MemberVarNotTypeName');
+        $this->checkHungarianNotation($phpcsFile, $stackPtr, $varName, 'MemberVarNotTypeName');
 
         parent::processMemberVar($phpcsFile, $stackPtr);
 
@@ -112,11 +122,11 @@ class Oxid_Sniffs_NamingConventions_ValidVariableNameSniff extends Zend_Sniffs_N
         if (preg_match_all('|[^\\\]\$([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)|', $tokens[$stackPtr]['content'], $matches) !== 0) {
             foreach ($matches[1] as $varName) {
                 // If it's a php reserved var, then its ok.
-                if (in_array($varName, $this->_ignoreVaribaleNames) === true) {
+                if (in_array($varName, $this->ignoreVaribaleNames) === true) {
                     continue;
                 }
 
-                $this->_checkHungarianNotation($phpcsFile, $stackPtr, $varName, 'StringVarNotTypeName');
+                $this->checkHungarianNotation($phpcsFile, $stackPtr, $varName, 'StringVarNotTypeName');
             }//end foreach
         }//end if
 
@@ -131,13 +141,21 @@ class Oxid_Sniffs_NamingConventions_ValidVariableNameSniff extends Zend_Sniffs_N
      *                                        stack passed in $tokens.
      * @param string               $varName   The name of Variable
      * @param string               $code      A violation code unique to the sniff message.
+     *
+     * @return void
      */
-    protected function _checkHungarianNotation(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $varName, $code)
+    protected function checkHungarianNotation(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $varName, $code, $recordsWarningLevel = false)
     {
         if (!preg_match("/^_?{$this->_hungarianNotation}[A-Z]/", $varName)) {
             $error = 'Variable "%s" start not with a Type character';
+            if ($code == 'SubVarNotTypeName')
+                $error = 'Object variable "%s" start not with a Type character';
             $data  = array($varName);
-            $phpcsFile->addError($error, $stackPtr, $code, $data);
+            if ($recordsWarningLevel !== false) {
+                $phpcsFile->addWarning($error, $stackPtr, $code, $data, $recordsWarningLevel);
+            } else {
+                $phpcsFile->addError($error, $stackPtr, $code, $data);
+            }
         }
 
         $this->subVariablename($phpcsFile, $stackPtr);
@@ -149,6 +167,8 @@ class Oxid_Sniffs_NamingConventions_ValidVariableNameSniff extends Zend_Sniffs_N
      * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
      * @param int                  $stackPtr  The position of the current token in the
      *                                        stack passed in $tokens
+     *
+     * @return void
      */
     protected function subVariablename(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
@@ -166,7 +186,7 @@ class Oxid_Sniffs_NamingConventions_ValidVariableNameSniff extends Zend_Sniffs_N
         $varName = $tokens[$stackPtr+2]['content'];
 
         // If it's a reserved var, then its ok.
-        if (in_array($varName, $this->_ignoreVaribaleNames) === true) {
+        if (in_array($varName, $this->ignoreVaribaleNames) === true) {
             return;
         }
         //is Function
@@ -174,6 +194,6 @@ class Oxid_Sniffs_NamingConventions_ValidVariableNameSniff extends Zend_Sniffs_N
             return;
         }
 
-        $this->_checkHungarianNotation($phpcsFile, $stackPtr+2, $varName, 'SubVarNotTypeName');
+        $this->checkHungarianNotation($phpcsFile, $stackPtr+2, $varName, 'SubVarNotTypeName', 0);
     }//end subVariablename
 }//end class
