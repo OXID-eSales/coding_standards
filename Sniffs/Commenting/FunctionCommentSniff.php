@@ -88,24 +88,31 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
     /**
      * Search if Function has a Return Statement
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param PHP_CodeSniffer_File $phpcsFile      The file being scanned.
+     * @param int                  $stackPtr       The position of the current token
+     *                                             in the stack passed in $tokens.
+     * @param int                  $continueSearch If found a return in Condition of a closure
+     *                                             than continue to search
      *
      * @return bool
      */
-    protected function functionHasReturnStatement(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function functionHasReturnStatement(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $continueSearch = null)
     {
         $tokens = $phpcsFile->getTokens();
         $sFunctionToken = $tokens[$stackPtr];
 
-        if (isset($sFunctionToken['scope_opener']) && isset($sFunctionToken['scope_closer'])
-            && $phpcsFile->findNext(T_RETURN, $sFunctionToken['scope_opener'], $sFunctionToken['scope_closer']) !== false
-        ) {
-            return true;
+        $startSearch = $continueSearch !== null ? $continueSearch : $sFunctionToken['scope_opener'];
+
+        $returnStatement = $phpcsFile->findNext(T_RETURN, $startSearch, $sFunctionToken['scope_closer']);
+
+        if ($returnStatement !== false) {
+            if ($phpcsFile->hasCondition($returnStatement, T_CLOSURE)) {
+                return $this->functionHasReturnStatement($phpcsFile, $stackPtr, $returnStatement+1);
+            } else {
+                return true;
+            }
         }
 
         return false;
     }//end functionHasReturnStatement()
-
 }//end class
