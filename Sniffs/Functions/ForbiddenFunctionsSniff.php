@@ -45,7 +45,7 @@ class Oxid_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_F
      *
      * @var array(string => string|null)
      */
-    protected $forbiddenFunctions = array(
+    public $forbiddenFunctions = array(
         'var_dump'   => null,
         'sizeof'     => 'count',
         'delete'     => 'unset',
