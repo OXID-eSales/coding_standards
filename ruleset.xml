@@ -17,6 +17,8 @@
     <exclude-pattern>*/out/*</exclude-pattern>
     <exclude-pattern>*/setup/tpl/*</exclude-pattern>
     <exclude-pattern>*/tmp[^/]*/*</exclude-pattern>
+    <exclude-pattern>/config.inc.php</exclude-pattern>
+    <exclude-pattern>/vendor/</exclude-pattern>
 
     <!--  Include specific sniffs from the other standards. -->
     <rule ref="Generic.Metrics.CyclomaticComplexity"/>
