@@ -21,10 +21,18 @@
  */
 
 $scriptPath = array_shift($argv);
-$binDir = dirname($scriptPath);
-$phpCs = "$binDir/phpcs";
-$standard = $binDir . "/../oxid-esales/coding-standards/Oxid";
-$source = $binDir . "/../../";
+
+$binDir = getcwd() . "/" . dirname($scriptPath);
+
+// if installed not throught shop composer.json
+if (!preg_match("@vendor/bin$@si", $binDir, $matches)) {
+    $phpCs = "$binDir/../vendor/bin/phpcs";
+    $standard = $binDir . "/../Oxid";
+} else {
+    $phpCs = "$binDir/phpcs";
+    $standard = $binDir . "/../oxid-esales/coding-standards/Oxid";
+    $source = $binDir . "/../../";
+}
 
 // collect arguments
 $arguments = array();
@@ -42,7 +50,11 @@ $arguments = implode(' ', $arguments);
 // prepare command
 $command = "$phpCs --standard=$standard $arguments ";
 if (!$sourceFromParams) {
-    $command .= $source;
+    if (!isset($source)) {
+        die("Please provide directory path where to check coding standards\n");
+    } else {
+        $command .= $source;
+    }
 }
 
 passthru($command);
