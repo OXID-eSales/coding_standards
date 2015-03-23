@@ -26,4 +26,23 @@ $phpCs = "$binDir/phpcs";
 $standard = $binDir . "/../oxid-esales/coding-standards/Oxid";
 $source = $binDir . "/../../";
 
-passthru("$phpCs --standard=$standard $source");
+// collect arguments
+$arguments = array();
+$sourceFromParams = false;
+foreach ($argv as $argument) {
+    if (strpos($argument, '-') === 0) {
+        $arguments[] = $argument;
+    } else {
+        $arguments[] = escapeshellarg($argument);
+        $sourceFromParams = true;
+    }
+}
+$arguments = implode(' ', $arguments);
+
+// prepare command
+$command = "$phpCs --standard=$standard $arguments ";
+if (!$sourceFromParams) {
+    $command .= $source;
+}
+
+passthru($command);
