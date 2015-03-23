@@ -13,7 +13,7 @@ See OXID eShop coding standards documentation at http://wiki.oxidforge.org/Codin
 Coding Standards setup uses composer to get required packages, so make sure to have composer installed and accessible. 
 You can find composer installation guide [here](https://getcomposer.org/download/).
 
-### Selecting where to install testing library
+### Selecting where to install coding standards
 
 Coding Standards can be installed directly within shop or to any other directory. 
 However, installation varies slightly depending on selected location. We advise to install it using shop directory. 
@@ -53,25 +53,25 @@ Latest development shop version already includes composer.json file in its sourc
 
 #### Option 2: Selecting any directory for installation (alternative way)
 
-To install Coding Standards to any directory, you need to checkout Coding Standards from Github into desired directory (`git clone https://github.com/OXID-eSales/coding_standards.git`). Installing this way, binaries will be accessible from `testing_library/path/bin`. You must manually set what directory you want to check for conding standards errors by giving directory path as argument for oxid phpcs binary, like: `phpcsoxid /path/to/my/shop/`.
+To install Coding Standards to any directory, you need to checkout Coding Standards from Github into desired directory (`git clone https://github.com/OXID-eSales/coding_standards.git`). Installing this way, binaries will be accessible from `coding_standards/bin`. You must manually set what directory you want to check for conding standards errors by giving directory path as argument for oxid phpcs binary, like: `phpcsoxid /path/to/my/shop/`.
 
-### Installing testing library
+### Installing Coding Standards
 
-After you selected where you want to install the testing library, follow these steps:
+After you selected where you want to install the Coding Standards, follow these steps:
 
 1. Navigate to the directory that you picked for installation.
-1. Use composer to setup testing library components (`composer install`). Ensure you do this from within the directory where `composer.json` is located. 
+1. Use composer to setup Coding Standards components (`composer install`). Ensure you do this from within the directory where `composer.json` is located. 
 
 
 ## Running Coding Standards checks
 
 To run coding standards checkings, use phpcsoxid binary by:  
-`bin/phpcsoxid` - run phpcs with preconfigured Oxid standard, and show list of errors.  
-`bin/phpcsoxid /some/other/path` - run phpcs with preconfigured Oxid standard on some specific directory  
+`phpcsoxid` - run phpcs with preconfigured Oxid standard, and show list of errors.  
+`phpcsoxid /some/other/path` - run phpcs with preconfigured Oxid standard on some specific directory  
 *(You must always provide directory for checking if coding standards was not installed by "Option 1" installation method.)*
 
 It is possible to use standard codesniffer(phpcs) options too, like:  
-`bin/phpcsoxid --report=summary`
+`phpcsoxid --report=summary`
 
 Alternatively, it is possible to use original phpcs, but you must configure it by yourself. As example:  
-`bin/phpcs --standard=/path/to/Standard/directory/Oxid/ /path/to/directory/for/checking/standards`
+`phpcs --standard=/path/to/Standard/directory/Oxid/ /path/to/directory/for/checking/standards`
