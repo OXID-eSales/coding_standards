@@ -21,17 +21,26 @@
  */
 
 $scriptPath = array_shift($argv);
+$binDir = dirname($scriptPath);
 
-$binDir = getcwd() . "/" . dirname($scriptPath);
-
-// if installed not throught shop composer.json
+// check if installed by coding standards repository checkout
 if (!preg_match("@vendor/bin$@si", $binDir, $matches)) {
+    // overwrite for binDir variable with real path!
+    $binDir = dirname(realpath($scriptPath));
+
     $phpCs = "$binDir/../vendor/bin/phpcs";
     $standard = $binDir . "/../Oxid";
+
+// if installed by shop composer install
 } else {
     $phpCs = "$binDir/phpcs";
     $standard = $binDir . "/../oxid-esales/coding-standards/Oxid";
     $source = $binDir . "/../../";
+}
+
+// checking if phpcs can be found
+if (!file_exists($phpCs)) {
+    die("Cannot find phpcs file, please check installation manual, if software was installed correctly!");
 }
 
 // collect arguments
