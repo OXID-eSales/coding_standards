@@ -44,7 +44,7 @@
     </rule>
 
     <rule ref="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore">
-        <exclude-pattern>core/oxconfig.php</exclude-pattern>
+        <exclude-pattern>*</exclude-pattern>
     </rule>
 
     <rule ref="Generic.Files.LineLength.TooLong">
@@ -52,7 +52,7 @@
     </rule>
 
     <rule ref="Oxid.Commenting.FunctionComment.MissingParamComment">
-        <type>warning</type>
+        <exclude-pattern>*</exclude-pattern>
     </rule>
 
     <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
