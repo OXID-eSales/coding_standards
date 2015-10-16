@@ -3,9 +3,9 @@
     <description>OXID coding standards.</description>
 
     <!-- Ignore patterns -->
+    <exclude-pattern>*/application/views/*</exclude-pattern>
     <exclude-pattern>*/core/3rd_party_licenses/*</exclude-pattern>
     <exclude-pattern>*/core/adodblite/*</exclude-pattern>
-    <exclude-pattern>*/core/application/views/*</exclude-pattern>
     <exclude-pattern>*/core/facebook/*</exclude-pattern>
     <exclude-pattern>*/core/jpgraph/*</exclude-pattern>
     <exclude-pattern>*/core/oxfunctions.php*</exclude-pattern>
