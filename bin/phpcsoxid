@@ -59,9 +59,7 @@ $arguments = implode(' ', $arguments);
 // prepare command
 $command = "$phpCs --standard=$standard $arguments ";
 if (!$sourceFromParams) {
-    if (!isset($source)) {
-        die("Please provide directory path where to check coding standards\n");
-    } else {
+    if (isset($source)) {
         $command .= $source;
     }
 }
