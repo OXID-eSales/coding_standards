@@ -6,12 +6,6 @@
     "keywords": ["oxid", "standards", "eShop"],
     "homepage": "https://www.oxid-esales.com/en/home.html",
     "license": "GPL-3.0",
-    "repositories": {
-        "squizlabs/php_codesniffer": {
-            "type": "vcs",
-            "url": "https://github.com/OXID-eSales/PHP_CodeSniffer.git"
-        }
-    },
     "require": {
         "squizlabs/php_codesniffer": "2.3.1"
     },
