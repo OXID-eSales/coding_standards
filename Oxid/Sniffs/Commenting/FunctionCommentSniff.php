@@ -35,6 +35,13 @@
 class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting_FunctionCommentSniff
 {
     /**
+     * Check it is a PHP Interface, but one time.
+     *
+     * @var array
+     */
+    protected $isFileInterface = array();
+
+    /**
      * Process the return comment of this function comment.
      *
      * @param PHP_CodeSniffer_File $phpcsFile    The file being scanned.
@@ -65,6 +72,10 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
             }
         }
 
+        if ($this->isInterface($phpcsFile)) {
+            return;
+        }
+        
         if ($isSpecialMethod === true) {
             return;
         }
@@ -117,4 +128,23 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
 
         return false;
     }//end functionHasReturnStatement()
+
+    /**
+     * Test if this a PHP Interface File
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile
+     *
+     * @return bool
+     */
+    protected function isInterface(PHP_CodeSniffer_File $phpcsFile) {
+        $checkFile = "". $phpcsFile->getFilename();
+        if (isset($this->isFileInterface[$checkFile])) {
+            return (bool) $this->isFileInterface[$checkFile];
+        }
+
+        $interface = $phpcsFile->findNext(T_INTERFACE, 0);
+
+        return $this->isFileInterface[$checkFile] = (bool)(empty($interface) == false);
+    }//end isInterfaceClass()
+
 }//end class
