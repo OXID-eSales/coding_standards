@@ -64,4 +64,5 @@ if (!$sourceFromParams) {
     }
 }
 
-passthru($command);
+passthru($command, $ret);
+exit($ret);
