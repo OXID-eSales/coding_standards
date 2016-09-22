@@ -3,21 +3,17 @@
     <description>OXID coding standards.</description>
 
     <!-- Ignore patterns -->
-    <exclude-pattern>*/application/views/*</exclude-pattern>
-    <exclude-pattern>*/core/3rd_party_licenses/*</exclude-pattern>
-    <exclude-pattern>*/core/facebook/*</exclude-pattern>
-    <exclude-pattern>*/core/jpgraph/*</exclude-pattern>
-    <exclude-pattern>*/core/oxfunctions.php*</exclude-pattern>
-    <exclude-pattern>*/core/phpdtaus/*</exclude-pattern>
-    <exclude-pattern>*/core/phpmailer/*</exclude-pattern>
-    <exclude-pattern>*/core/smarty/*</exclude-pattern>
-    <exclude-pattern>*/core/tcpdf/*</exclude-pattern>
-    <exclude-pattern>*/core/wysiwigpro/*</exclude-pattern>
+    <exclude-pattern>*/Application/views/*</exclude-pattern>
+    <exclude-pattern>*/oxfunctions.php*</exclude-pattern>
+    <exclude-pattern>*/Core/Smarty/*</exclude-pattern>
+    <exclude-pattern>*/Core/tcpdf/*</exclude-pattern>
+    <exclude-pattern>*/Core/adodblite/*</exclude-pattern>
     <exclude-pattern>*/out/*</exclude-pattern>
-    <exclude-pattern>*/setup/tpl/*</exclude-pattern>
+    <exclude-pattern>*/Setup/tpl/*</exclude-pattern>
     <exclude-pattern>*/tmp[^/]*/*</exclude-pattern>
     <exclude-pattern>/config.inc.php</exclude-pattern>
     <exclude-pattern>/vendor/</exclude-pattern>
+    <exclude-pattern>/tests/</exclude-pattern>
 
     <!--  Include specific sniffs from the other standards. -->
     <rule ref="Generic.Metrics.CyclomaticComplexity"/>
