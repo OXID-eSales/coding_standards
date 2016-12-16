@@ -115,7 +115,9 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
         $returnStatement = false;
         if (isset($sFunctionToken['scope_closer']) and isset($sFunctionToken['scope_opener'])) {
             $startSearch = $continueSearch !== null ? $continueSearch : $sFunctionToken['scope_opener'];
-            $returnStatement = $phpcsFile->findNext(T_RETURN, $startSearch, $sFunctionToken['scope_closer']);
+            $returnStatement =
+                $phpcsFile->findNext(T_RETURN, $startSearch, $sFunctionToken['scope_closer'])
+                || $phpcsFile->findNext(T_YIELD,  $startSearch, $sFunctionToken['scope_closer']);
         }
 
         if ($returnStatement !== false) {
