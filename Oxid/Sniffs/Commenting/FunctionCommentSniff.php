@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Parses and verifies the doc comments for functions.
  *
@@ -13,23 +14,6 @@
  * @author    Marc McIntyre <mmcintyre@squiz.net>
  * @copyright 2006-2014 Squiz Pty Ltd (ABN 77 084 670 600)
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
- * @link      http://pear.php.net/package/PHP_CodeSniffer
- */
-
-/**
- * Parses and verifies the doc comments for functions.
- *
- * This class is based on PEAR/Sniffs/Commenting/FunctionCommentSniff (commit: 23e8320). Changes were made under copyright
- * by OXID eSales AG for use with special behaviour in OXID eShop.
- *   - Added special treatment for "@return" statements
- *
- * @category  PHP
- * @package   PHP_CodeSniffer
- * @author    Greg Sherwood <gsherwood@squiz.net>
- * @author    Marc McIntyre <mmcintyre@squiz.net>
- * @copyright 2006-2014 Squiz Pty Ltd (ABN 77 084 670 600)
- * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
- * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
 class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting_FunctionCommentSniff
@@ -59,6 +43,9 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
         $methodName      = $phpcsFile->getDeclarationName($stackPtr);
         $isSpecialMethod = ($methodName === '__construct' || $methodName === '__destruct');
 
+        $methodProperties = $phpcsFile->getMethodProperties($stackPtr);
+        $isAbstractMethod = $methodProperties['is_abstract'];
+
         $return = null;
         foreach ($tokens[$commentStart]['comment_tags'] as $tag) {
             if ($tokens[$tag]['content'] === '@return') {
@@ -75,7 +62,7 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
         if ($this->isInterface($phpcsFile)) {
             return;
         }
-        
+
         if ($isSpecialMethod === true) {
             return;
         }
@@ -86,15 +73,16 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
                 $error = 'Return type missing for @return tag in function comment';
                 $phpcsFile->addError($error, $return, 'MissingReturnType');
             } elseif (!$this->functionHasReturnStatement($phpcsFile, $stackPtr)) {
-                $error = 'Function return type is set, but function has no return statement';
-                $phpcsFile->addError($error, $return, 'InvalidNoReturn');
+                if (!$isAbstractMethod) {
+                    $error = 'Function return type is set, but function has no return statement';
+                    $phpcsFile->addError($error, $return, 'InvalidNoReturn');
+                }
             }
         } elseif ($this->functionHasReturnStatement($phpcsFile, $stackPtr)) {
             $error = 'Missing @return tag in function comment.';
             $phpcsFile->addError($error, $tokens[$commentStart]['comment_closer'], 'MissingReturn');
-        }//end if
-
-    }//end processReturn()
+        }
+    }
 
     /**
      * Search if Function has a Return Statement
@@ -129,7 +117,7 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
         }
 
         return false;
-    }//end functionHasReturnStatement()
+    }
 
     /**
      * Test if this a PHP Interface File
@@ -147,6 +135,5 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
         $interface = $phpcsFile->findNext(T_INTERFACE, 0);
 
         return $this->isFileInterface[$checkFile] = (bool)(empty($interface) == false);
-    }//end isInterfaceClass()
-
-}//end class
+    }
+}
