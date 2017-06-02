@@ -43,9 +43,6 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
         $methodName      = $phpcsFile->getDeclarationName($stackPtr);
         $isSpecialMethod = ($methodName === '__construct' || $methodName === '__destruct');
 
-        $methodProperties = $phpcsFile->getMethodProperties($stackPtr);
-        $isAbstractMethod = $methodProperties['is_abstract'];
-
         $return = null;
         foreach ($tokens[$commentStart]['comment_tags'] as $tag) {
             if ($tokens[$tag]['content'] === '@return') {
@@ -63,6 +60,10 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
             return;
         }
 
+        if ($this->isAbstractMethod($phpcsFile, $stackPtr)) {
+            return;
+        }
+
         if ($isSpecialMethod === true) {
             return;
         }
@@ -73,10 +74,8 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
                 $error = 'Return type missing for @return tag in function comment';
                 $phpcsFile->addError($error, $return, 'MissingReturnType');
             } elseif (!$this->functionHasReturnStatement($phpcsFile, $stackPtr)) {
-                if (!$isAbstractMethod) {
-                    $error = 'Function return type is set, but function has no return statement';
-                    $phpcsFile->addError($error, $return, 'InvalidNoReturn');
-                }
+                $error = 'Function return type is set, but function has no return statement';
+                $phpcsFile->addError($error, $return, 'InvalidNoReturn');
             }
         } elseif ($this->functionHasReturnStatement($phpcsFile, $stackPtr)) {
             $error = 'Missing @return tag in function comment.';
@@ -135,5 +134,19 @@ class Oxid_Sniffs_Commenting_FunctionCommentSniff extends PEAR_Sniffs_Commenting
         $interface = $phpcsFile->findNext(T_INTERFACE, 0);
 
         return $this->isFileInterface[$checkFile] = (bool)(empty($interface) == false);
+    }
+
+    /**
+     * Check, if the given method is abstract.
+     *
+     * @param PHP_CodeSniffer_File $phpCsFile
+     * @param int                  $stackPointer
+     *
+     * @return bool Is the method, given by the file and the pointer, an abstract method?
+     */
+    protected function isAbstractMethod(PHP_CodeSniffer_File $phpCsFile, $stackPointer) {
+        $methodProperties = $phpCsFile->getMethodProperties($stackPointer);
+
+        return $methodProperties['is_abstract'];
     }
 }
