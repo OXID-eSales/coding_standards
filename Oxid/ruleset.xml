@@ -12,7 +12,31 @@
     <exclude-pattern>*/Setup/tpl/*</exclude-pattern>
     <exclude-pattern>*/tmp[^/]*/*</exclude-pattern>
     <exclude-pattern>/config.inc.php</exclude-pattern>
-    <exclude-pattern>/vendor/</exclude-pattern>
+    <exclude-pattern>/vendor/autoload.php</exclude-pattern>
+    <exclude-pattern>/vendor/behat</exclude-pattern>
+    <exclude-pattern>/vendor/bin</exclude-pattern>
+    <exclude-pattern>/vendor/composer</exclude-pattern>
+    <exclude-pattern>/vendor/doctrine</exclude-pattern>
+    <exclude-pattern>/vendor/fabpot</exclude-pattern>
+    <exclude-pattern>/vendor/guzzle</exclude-pattern>
+    <exclude-pattern>/vendor/incenteev</exclude-pattern>
+    <exclude-pattern>/vendor/justinrainbow</exclude-pattern>
+    <exclude-pattern>/vendor/mikey179</exclude-pattern>
+    <exclude-pattern>/vendor/ocramius</exclude-pattern>
+    <exclude-pattern>/vendor/pdepend</exclude-pattern>
+    <exclude-pattern>/vendor/phpdocumentor</exclude-pattern>
+    <exclude-pattern>/vendor/phpmailer</exclude-pattern>
+    <exclude-pattern>/vendor/phpspec</exclude-pattern>
+    <exclude-pattern>/vendor/phpunit</exclude-pattern>
+    <exclude-pattern>/vendor/psr</exclude-pattern>
+    <exclude-pattern>/vendor/sebastian</exclude-pattern>
+    <exclude-pattern>/vendor/seld</exclude-pattern>
+    <exclude-pattern>/vendor/smarty</exclude-pattern>
+    <exclude-pattern>/vendor/squizlabs</exclude-pattern>
+    <exclude-pattern>/vendor/symfony</exclude-pattern>
+    <exclude-pattern>/vendor/theseer</exclude-pattern>
+    <exclude-pattern>/vendor/webmozart</exclude-pattern>
+    <exclude-pattern>/vendor/zendframework</exclude-pattern>    
     <exclude-pattern>/tests/</exclude-pattern>
     <exclude-pattern>/modules/</exclude-pattern>
 
