@@ -27,8 +27,12 @@ $binDir = dirname($scriptPath);
 if (!preg_match("@vendor/bin$@si", $binDir, $matches)) {
     // overwrite for binDir variable with real path!
     $binDir = dirname(realpath($scriptPath));
-
     $phpCs = "$binDir/../vendor/bin/phpcs";
+
+    if (substr(PHP_OS, 0, 3) === 'WIN') {
+        $phpCs = $binDir ."/../../../../vendor/bin/phpcs";
+    }
+
     $standard = $binDir . "/../Oxid";
 
 // if installed by shop composer install
