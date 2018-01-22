@@ -23,23 +23,23 @@
 $scriptPath = array_shift($argv);
 $binDir = dirname($scriptPath);
 
-// check if installed by coding standards repository checkout
-if (!preg_match("@vendor/bin$@si", $binDir, $matches)) {
+// if installed by shop composer install
+if (preg_match("@vendor/bin$@si", $binDir, $matches)) {
+    $phpCs = "$binDir/phpcs";
+    $source = $binDir . "/../../";
+    $standard = $binDir . "/../oxid-esales/coding-standards/Oxid";
+
+} elseif (preg_match("@/vendor/oxid-esales/coding-standards/bin$@si", $binDir, $matches)) {
+    $phpCs = $binDir . "/../../../../vendor/bin/phpcs";
+    $source = $binDir . "/../../../../";
+    $standard = $binDir . "/../Oxid";
+
+// if installed by coding standards repository checkout
+} else {
     // overwrite for binDir variable with real path!
     $binDir = dirname(realpath($scriptPath));
     $phpCs = "$binDir/../vendor/bin/phpcs";
-
-    if (substr(PHP_OS, 0, 3) === 'WIN') {
-        $phpCs = $binDir ."/../../../../vendor/bin/phpcs";
-    }
-
     $standard = $binDir . "/../Oxid";
-
-// if installed by shop composer install
-} else {
-    $phpCs = "$binDir/phpcs";
-    $standard = $binDir . "/../oxid-esales/coding-standards/Oxid";
-    $source = $binDir . "/../../";
 }
 
 // checking if phpcs can be found
