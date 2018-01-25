@@ -4,7 +4,7 @@
     "type": "library",
     "keywords": ["oxid", "standards", "eShop"],
     "homepage": "https://www.oxid-esales.com/en/home.html",
-    "license": "GPL-3.0",
+    "license": "GPL-3.0-only",
     "require": {
         "squizlabs/php_codesniffer": "^2.3.1"
     },
