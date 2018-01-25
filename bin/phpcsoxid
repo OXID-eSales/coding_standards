@@ -22,18 +22,14 @@
 
 $scriptPath = array_shift($argv);
 $binDir = dirname(realpath($scriptPath));
-$dirSep = "/";
-if (substr(PHP_OS, 0, 3) === 'WIN') {
-    $dirSep = "\\\\";
-}
 
 // if installed by shop composer install
-if (preg_match("@vendor${dirSep}bin$@si", $binDir, $matches)) {
+if (preg_match("@vendor/bin$@si", $binDir, $matches)) {
     $phpCs = "$binDir/phpcs";
     $source = $binDir . "/../../";
     $standard = $binDir . "/../oxid-esales/coding-standards/Oxid";
 
-} elseif (preg_match("@${dirSep}vendor${dirSep}oxid-esales${dirSep}coding-standards${dirSep}bin$@si", $binDir, $matches)) {
+} elseif (preg_match("@.vendor.oxid-esales.coding-standards.bin$@si", $binDir, $matches)) {
     $phpCs = $binDir . "/../../../../vendor/bin/phpcs";
     $source = $binDir . "/../../../../";
     $standard = $binDir . "/../Oxid";
