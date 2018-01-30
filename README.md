@@ -5,7 +5,7 @@ This repository includes OXID eShop coding standards definition for PHP Codesnif
 
 See OXID eShop coding standards documentation at http://wiki.oxidforge.org/Coding_standards
 
-##Requirements
+## Requirements
 * Latest Composer version
 
 ## Installation
