@@ -14,7 +14,6 @@
     <exclude-pattern>/config.inc.php</exclude-pattern>
     <exclude-pattern>/vendor/</exclude-pattern>
     <exclude-pattern>/tests/</exclude-pattern>
-    <exclude-pattern>/modules/</exclude-pattern>
     <exclude-pattern>.phpstorm.meta.php/*</exclude-pattern>
 
     <!--  Include specific sniffs from the other standards. -->
