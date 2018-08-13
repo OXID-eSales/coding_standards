@@ -3,7 +3,7 @@ OXID Coding Standards
 
 This repository includes OXID eShop coding standards definition for PHP Codesniffer along with a PHPStorm autoformat config file. The PHP_CodeSniffer standard will never be 100% accurate, but should be viewed as a strong set of guidelines while contributing to OXID eShop.
 
-See OXID eShop coding standards documentation at http://wiki.oxidforge.org/Coding_standards
+See OXID eShop coding standards documentation at https://oxidforge.org/en/coding-standards.html
 
 ## Requirements
 * Latest Composer version
