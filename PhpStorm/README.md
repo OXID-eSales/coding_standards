@@ -1,5 +1,5 @@
 OXID PhpStorm settings
-======================
+==============
 
 This directory holds settings for PhpStorm.
 
